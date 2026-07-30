@@ -22,3 +22,26 @@ class BurguersDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.inputs[idx], self.targets[idx]
+
+def get_dataloader(
+        datapath: str | Path,
+        batch_size: int = 1024,
+        train_ratio: float = 0.7,
+        val_ratio: float = 0.15,
+):
+    full_dataset = BurguersDataset(datapath)
+
+    total_size = len(full_dataset)
+    train_size = int(total_size * train_ratio)
+    val_size = int(total_size * val_ratio)
+    test_size = total_size - train_size - val_size
+
+    train_dataset, val_dataset, test_dataset = torch.utils.data.random_split(
+        full_dataset, [train_size, val_size, test_size]
+    )
+
+    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+    return train_dataloader, val_dataloader, test_dataloader
