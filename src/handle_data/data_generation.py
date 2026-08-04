@@ -17,7 +17,7 @@ class GenerateData:
         self.cfl = cfl
         self.ic = ic
 
-    def generate(self):
+    def generate(self, animate=False):
 
         #-------------- Corremos la simulacion -------------------------
 
@@ -45,5 +45,9 @@ class GenerateData:
         output_dir = project_root / "data" / "raw"
         output_dir.mkdir(parents=True, exist_ok=True)
         file_path = output_dir / "burguers_inviscid_raw.npz"
+
+        if animate:
+            from utils.plot_data import animate_solution
+            animate_solution(x_data, t_data, u_data, save_path= project_root / "animations" / "fvm2.gif")
 
         np.savez_compressed(file_path, x=x_data, t=t_data, u=u_data)

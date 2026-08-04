@@ -10,7 +10,7 @@ class BurguersDataset(Dataset):
         t = data["t"]
         u = data["u"]
 
-        T, X  = np.meshgrid(t, x, idexing="ij")
+        T, X  = np.meshgrid(t, x, indexing="ij")
         inputs_data = np.column_stack((T.ravel(), X.ravel()))
         targets_data = u.ravel().reshape(-1, 1)
 
