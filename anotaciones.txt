@@ -1,0 +1,17 @@
+SINES 
+   (Produce ondas de choche -> VPINNs)
+   sine_1: Modelo entrenado con nx=400 (~15.000 ejemplos)
+   sine_2: Mismo modelo entrenado con nx=4000 (~1.500.000 ejemplos)
+   sine_3: Modelo entrenado en [0, 0.2] nx=10000 (~1.000.000 ejemplos)
+
+
+TANH
+   (No produce ondas de choque -> PINNs)
+   tanh_1: Modelo entrenado con nx=4000 (~1.500.000 ejemplos)
+   tanh_2: Modelo entrenado con nx=200 (~4.000 ejemplos)
+
+DSIN
+   (No produce ondas de choque -> PINNs)
+   dsin_1: Modelo entrenado con nx=1300 (~1.500.000 ejemplos)
+   dsin_2: Modelo entrenado en [0, 0.2] nx=3000 (~1.000.000 ejemplos)
+   

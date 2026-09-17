@@ -69,7 +69,6 @@ class BurgersFVM:
         """
         u = u0_func(self.x)
 
-        # Malla temporal uniforme para el Dataset (Nt x Nx)
         U_history = [u.copy()]
         t_eval = [0.0]
 
@@ -92,5 +91,4 @@ class BurgersFVM:
 
             U_history.append(u.copy())
             t_eval.append(t.copy())
-
         return self.x, t_eval, U_history

@@ -8,7 +8,7 @@ from fvm.fvm_solver import BurgersFVM
 
 class GenerateData:
     def __init__(
-        self, x_start=0.0, x_end=2.0 * np.pi, nx=400, t_final=2.0, cfl=0.9, ic='sine'
+        self, x_start=0.0, x_end=2.0 * np.pi, nx=400, t_final=4.0, cfl=0.9, ic='sine', simulation_id='default'
     ):
         self.x_start = x_start
         self.x_end = x_end
@@ -16,6 +16,7 @@ class GenerateData:
         self.t_final = t_final
         self.cfl = cfl
         self.ic = ic
+        self.simulation_id = simulation_id
 
     def generate(self, animate=False):
 
@@ -34,6 +35,12 @@ class GenerateData:
                 X, t_eval, U = solver.solve(lambda x: np.sin(x))
             case 'step':
                 X, t_eval, U = solver.solve(lambda x: 1 if x>=0 else 0)   
+            case 'linear':
+                X, t_eval, U = solver.solve(lambda x: x)
+            case 'tanh':
+                X, t_eval, U = solver.solve(lambda x: np.tanh(x))
+            case 'dsin':
+                X, t_eval, U = solver.solve(lambda x: x + np.sin(x))
 
         #---------------- Guardamos los datos -----------------------------
 
@@ -44,10 +51,12 @@ class GenerateData:
         project_root = Path(__file__).resolve().parents[2]
         output_dir = project_root / "data" / "raw"
         output_dir.mkdir(parents=True, exist_ok=True)
-        file_path = output_dir / "burguers_inviscid_raw.npz"
+        data_file_name = f"burguers_inviscid_raw_{self.simulation_id}.npz"
+        file_path = output_dir / data_file_name
 
         if animate:
             from utils.plot_data import animate_solution
-            animate_solution(x_data, t_data, u_data, save_path= project_root / "animations" / "fvm2.gif")
+            animation_file_name = f"fvm_{self.simulation_id}.gif"
+            animate_solution(x_data, t_data, u_data, save_path= project_root / "animations" / animation_file_name)
 
         np.savez_compressed(file_path, x=x_data, t=t_data, u=u_data)
